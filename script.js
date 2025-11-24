@@ -163,7 +163,7 @@ function generatePalette(baseColor) {
 
 // Base colors management
 let baseColors = [];
-let currentBaseColor = '#667eea';
+let currentBaseColor = '#FF0000';
 
 // Load base colors from localStorage
 function loadBaseColors() {
@@ -172,7 +172,7 @@ function loadBaseColors() {
         baseColors = JSON.parse(saved);
     } else {
         // Initialize with default color
-        baseColors = [{ id: Date.now(), color: '#667eea' }];
+                baseColors = [{ id: Date.now(), color: '#FF0000' }];
         saveBaseColors();
     }
     renderBaseColors();
@@ -240,7 +240,7 @@ function deleteBaseColor(id) {
     baseColors = baseColors.filter(item => item.id !== id);
     if (baseColors.length === 0) {
         // If no colors left, add default
-        baseColors = [{ id: Date.now(), color: '#667eea' }];
+                baseColors = [{ id: Date.now(), color: '#FF0000' }];
     }
     // If deleted color was current, select first available
     if (baseColors.length > 0 && !baseColors.find(item => item.color === currentBaseColor)) {
@@ -542,6 +542,12 @@ function updateShowcase(palette) {
         switchSlider2.style.borderColor = palette.color2;
     }
 
+    // Dark mode toggle (top section)
+    const darkModeToggleSlider = document.getElementById('darkModeToggleSlider');
+    if (darkModeToggleSlider) {
+        darkModeToggleSlider.style.borderColor = palette.color1;
+    }
+
     // Chips
     const chip1 = document.getElementById('chip1');
     if (chip1) {
@@ -677,6 +683,13 @@ function updateShowcase(palette) {
                 slider.style.backgroundColor = color;
             }
         });
+
+        // Update dark mode toggle slider
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeToggleSlider = document.getElementById('darkModeToggleSlider');
+        if (darkModeToggle && darkModeToggleSlider && darkModeToggle.checked) {
+            darkModeToggleSlider.style.backgroundColor = palette.color1;
+        }
     }, 100);
 }
 
@@ -723,6 +736,7 @@ function copyColor(elementId) {
 // Dark mode functionality
 function initDarkMode() {
     const darkModeSwitch = document.getElementById('switch2');
+    const darkModeToggle = document.getElementById('darkModeToggle');
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     
     function applyDarkMode(isDark) {
@@ -733,17 +747,29 @@ function initDarkMode() {
             document.body.classList.remove('dark-mode');
             localStorage.setItem('darkMode', 'false');
         }
+        
+        // Sync both switches
+        if (darkModeSwitch) {
+            darkModeSwitch.checked = isDark;
+        }
+        if (darkModeToggle) {
+            darkModeToggle.checked = isDark;
+        }
     }
     
     if (savedDarkMode) {
         applyDarkMode(true);
-        if (darkModeSwitch) {
-            darkModeSwitch.checked = true;
-        }
     }
     
+    // Add event listeners to both switches
     if (darkModeSwitch) {
         darkModeSwitch.addEventListener('change', (e) => {
+            applyDarkMode(e.target.checked);
+        });
+    }
+    
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('change', (e) => {
             applyDarkMode(e.target.checked);
         });
     }

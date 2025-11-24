@@ -10,6 +10,8 @@
     <div class="container">
         <h1>Brutalist Color Palette Maker</h1>
         
+        <p class="intro-text">Brutalist web design embraces raw, unpolished aesthetics with bold typography, stark contrasts, and functional layouts that prioritize content over decoration. This color palette maker generates harmonious color schemes using the golden ratio (φ ≈ 1.618), creating mathematically balanced palettes perfect for brutalist interfaces. Each palette includes base colors, golden ratio-based hue rotations, and carefully desaturated variants—all designed to work together with maximum visual impact and minimal design complexity.</p>
+        
         <div class="rules">
             <h2>Palette Rules (Golden Ratio Based)</h2>
             <ul>
@@ -20,15 +22,23 @@
             </ul>
         </div>
 
+        <div class="dark-mode-toggle-section">
+            <label class="dark-mode-toggle-label">
+                <input type="checkbox" class="dark-mode-toggle-switch" id="darkModeToggle">
+                <span class="dark-mode-toggle-slider" id="darkModeToggleSlider"></span>
+                <span class="dark-mode-toggle-text">Dark Mode</span>
+            </label>
+        </div>
+
         <div class="color-picker-section">
             <label class="color-picker-label" for="baseColor">Choose Base Color:</label>
             <div class="color-picker-controls">
                 <div class="color-preview-wrapper">
                     <div class="color-preview" id="colorPreview"></div>
-                    <input type="color" id="baseColor" value="#667eea">
+                    <input type="color" id="baseColor" value="#FF0000">
                 </div>
                 <div class="hex-input-wrapper">
-                    <input type="text" id="hexInput" class="hex-input" value="#667EEA" maxlength="7">
+                    <input type="text" id="hexInput" class="hex-input" value="#FF0000" maxlength="7">
                 </div>
                 <button class="add-color-btn" onclick="addBaseColor()">Add Current</button>
             </div>
@@ -48,7 +58,7 @@
                 <div class="color-display" id="color1"></div>
                 <div class="color-info">
                     <div class="color-label">Base Color</div>
-                    <div class="color-value" id="value1">#667eea</div>
+                    <div class="color-value" id="value1">#FF0000</div>
                     <button class="copy-btn" onclick="copyColor('value1')">Copy</button>
                 </div>
             </div>
