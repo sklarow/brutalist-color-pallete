@@ -410,39 +410,91 @@ function updateShowcase(palette) {
         }
     }
 
-    // Cards
+    // Cards - Using harmonious monochromatic and desaturated combinations
+    // Card 1: Very light background with subtle desaturated border
     const demoCard1 = document.getElementById('demoCard1');
     if (demoCard1) {
         demoCard1.style.backgroundColor = palette.color9;
-        demoCard1.style.borderColor = palette.color1;
+        demoCard1.style.borderColor = palette.color7;
     }
 
     const cardTitle1 = document.getElementById('cardTitle1');
     if (cardTitle1) {
-        // Use darkened color for better contrast on light background
         cardTitle1.style.color = palette.color10;
     }
 
     const cardText1 = document.getElementById('cardText1');
-    if (cardText1) {
-        cardText1.style.color = palette.color10;
-    }
+    const cardText1b = document.getElementById('cardText1b');
+    if (cardText1) cardText1.style.color = palette.color10;
+    if (cardText1b) cardText1b.style.color = palette.color10;
 
+    // Card 2: Medium desaturated background with base color border
     const demoCard2 = document.getElementById('demoCard2');
     if (demoCard2) {
-        demoCard2.style.backgroundColor = palette.color8;
-        demoCard2.style.borderColor = palette.color2;
+        demoCard2.style.backgroundColor = palette.color7;
+        demoCard2.style.borderColor = palette.color1;
     }
 
     const cardTitle2 = document.getElementById('cardTitle2');
     if (cardTitle2) {
-        // Use darkened color for better contrast on light background
         cardTitle2.style.color = palette.color10;
     }
 
     const cardText2 = document.getElementById('cardText2');
-    if (cardText2) {
-        cardText2.style.color = palette.color10;
+    const cardText2b = document.getElementById('cardText2b');
+    if (cardText2) cardText2.style.color = palette.color10;
+    if (cardText2b) cardText2b.style.color = palette.color10;
+
+    // Card 3: Base color background with desaturated border
+    const demoCard3 = document.getElementById('demoCard3');
+    if (demoCard3) {
+        demoCard3.style.backgroundColor = palette.color1;
+        demoCard3.style.borderColor = palette.color3;
+    }
+
+    // Determine text color based on background brightness
+    const cardTitle3 = document.getElementById('cardTitle3');
+    const cardText3 = document.getElementById('cardText3');
+    const cardText3b = document.getElementById('cardText3b');
+    if (cardTitle3 && cardText3) {
+        const rgb = hexToRgb(palette.color1);
+        const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+        const textColor = brightness > 128 ? palette.color10 : '#ffffff';
+        cardTitle3.style.color = textColor;
+        cardText3.style.color = textColor;
+        if (cardText3b) cardText3b.style.color = textColor;
+    }
+
+    // Card button styling
+    const cardButton = document.getElementById('cardButton');
+    if (cardButton) {
+        const rgb = hexToRgb(palette.color1);
+        const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+        if (brightness > 128) {
+            // Light background - use dark border and text
+            cardButton.style.borderColor = palette.color10;
+            cardButton.style.color = palette.color10;
+            cardButton.onmouseenter = function() {
+                this.style.backgroundColor = palette.color10;
+                this.style.color = '#ffffff';
+            };
+            cardButton.onmouseleave = function() {
+                this.style.backgroundColor = 'transparent';
+                this.style.color = palette.color10;
+            };
+        } else {
+            // Dark background - use light border and text
+            cardButton.style.borderColor = '#ffffff';
+            cardButton.style.color = '#ffffff';
+            cardButton.onmouseenter = function() {
+                this.style.backgroundColor = '#ffffff';
+                this.style.color = palette.color1;
+            };
+            cardButton.onmouseleave = function() {
+                this.style.backgroundColor = 'transparent';
+                this.style.color = '#ffffff';
+            };
+        }
     }
 
     // Badges
