@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette Maker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Brutalist Color Palette Maker</h1>
+        
+        <div class="rules">
+            <h2>Palette Rules (Golden Ratio Based)</h2>
+            <ul>
+                <li>Choose your base color</li>
+                <li>Hue rotations: 137.5° (360°/φ²), 222.5° (360°/φ), 275° (137.5°×2)</li>
+                <li>Saturation: 60% desat, 38.2% desat (golden ratio), 23.6% desat</li>
+                <li>Lightness: ±38.2% adjustments using golden ratio</li>
+            </ul>
+        </div>
+
+        <div class="color-picker-section">
+            <label class="color-picker-label" for="baseColor">Choose Base Color:</label>
+            <div class="color-picker-controls">
+                <div class="color-preview-wrapper">
+                    <div class="color-preview" id="colorPreview"></div>
+                    <input type="color" id="baseColor" value="#667eea">
+                </div>
+                <div class="hex-input-wrapper">
+                    <input type="text" id="hexInput" class="hex-input" value="#667EEA" maxlength="7">
+                </div>
+                <button class="add-color-btn" onclick="addBaseColor()">Add Current</button>
+            </div>
+        </div>
+
+        <div class="base-colors-section">
+            <div class="base-colors-header">
+                <div class="base-colors-title">Base Colors</div>
+            </div>
+            <div class="base-colors-grid" id="baseColorsGrid"></div>
+        </div>
+
+
+
+        <div class="palette" id="palette">
+            <div class="color-card">
+                <div class="color-display" id="color1"></div>
+                <div class="color-info">
+                    <div class="color-label">Base Color</div>
+                    <div class="color-value" id="value1">#667eea</div>
+                    <button class="copy-btn" onclick="copyColor('value1')">Copy</button>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-display" id="color2"></div>
+                <div class="color-info">
+                    <div class="color-label">Accent (+137.5°)</div>
+                    <div class="color-value" id="value2">#67ea7a</div>
+                    <button class="copy-btn" onclick="copyColor('value2')">Copy</button>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-display" id="color3"></div>
+                <div class="color-info">
+                    <div class="color-label">Desaturated (-60%)</div>
+                    <div class="color-value" id="value3">#a8a8c4</div>
+                    <button class="copy-btn" onclick="copyColor('value3')">Copy</button>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-display" id="color4"></div>
+                <div class="color-info">
+                    <div class="color-label">Golden Accent (+222.5°)</div>
+                    <div class="color-value" id="value4">#ea67b8</div>
+                    <button class="copy-btn" onclick="copyColor('value4')">Copy</button>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-display" id="color5"></div>
+                <div class="color-info">
+                    <div class="color-label">Double Rotation (+275°)</div>
+                    <div class="color-value" id="value5">#67eab8</div>
+                    <button class="copy-btn" onclick="copyColor('value5')">Copy</button>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-display" id="color6"></div>
+                <div class="color-info">
+                    <div class="color-label">Inverse Ratio (+52.5°)</div>
+                    <div class="color-value" id="value6">#b8ea67</div>
+                    <button class="copy-btn" onclick="copyColor('value6')">Copy</button>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-display" id="color7"></div>
+                <div class="color-info">
+                    <div class="color-label">Golden Desat (-38.2%)</div>
+                    <div class="color-value" id="value7">#9d9dc4</div>
+                    <button class="copy-btn" onclick="copyColor('value7')">Copy</button>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-display" id="color8"></div>
+                <div class="color-info">
+                    <div class="color-label">Light Desat (-23.6%)</div>
+                    <div class="color-value" id="value8">#8f8fc4</div>
+                    <button class="copy-btn" onclick="copyColor('value8')">Copy</button>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-display" id="color9"></div>
+                <div class="color-info">
+                    <div class="color-label">Lightened (+38.2%)</div>
+                    <div class="color-value" id="value9">#b8b8e8</div>
+                    <button class="copy-btn" onclick="copyColor('value9')">Copy</button>
+                </div>
+            </div>
+            <div class="color-card">
+                <div class="color-display" id="color10"></div>
+                <div class="color-info">
+                    <div class="color-label">Darkened (-38.2%)</div>
+                    <div class="color-value" id="value10">#4a4a8c</div>
+                    <button class="copy-btn" onclick="copyColor('value10')">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="showcase-section">
+            <h2 class="showcase-title">Component Usage Guide</h2>
+            
+            <div class="usage-guide">
+                <div class="color-usage-section">
+                    <h3 class="section-heading">Color Usage Guidelines</h3>
+                    <div class="usage-grid">
+                        <div class="usage-card" id="usageBase">
+                            <div class="usage-color-swatch" id="usageBaseSwatch"></div>
+                            <div class="usage-info">
+                                <h4 class="usage-title" id="usageBaseTitle">BASE COLOR</h4>
+                                <p class="usage-desc" id="usageBaseDesc">Use for: Primary buttons, main headings, key actions, brand elements</p>
+                            </div>
+                        </div>
+                        <div class="usage-card" id="usageAccent">
+                            <div class="usage-color-swatch" id="usageAccentSwatch"></div>
+                            <div class="usage-info">
+                                <h4 class="usage-title" id="usageAccentTitle">ACCENT</h4>
+                                <p class="usage-desc" id="usageAccentDesc">Use for: Secondary buttons, highlights, links, call-to-action elements</p>
+                            </div>
+                        </div>
+                        <div class="usage-card" id="usageDesat">
+                            <div class="usage-color-swatch" id="usageDesatSwatch"></div>
+                            <div class="usage-info">
+                                <h4 class="usage-title" id="usageDesatTitle">DESATURATED</h4>
+                                <p class="usage-desc" id="usageDesatDesc">Use for: Body text, backgrounds, subtle borders, disabled states</p>
+                            </div>
+                        </div>
+                        <div class="usage-card" id="usageLight">
+                            <div class="usage-color-swatch" id="usageLightSwatch"></div>
+                            <div class="usage-info">
+                                <h4 class="usage-title" id="usageLightTitle">LIGHTENED</h4>
+                                <p class="usage-desc" id="usageLightDesc">Use for: Card backgrounds, hover states, light sections, subtle fills</p>
+                            </div>
+                        </div>
+                        <div class="usage-card" id="usageDark">
+                            <div class="usage-color-swatch" id="usageDarkSwatch"></div>
+                            <div class="usage-info">
+                                <h4 class="usage-title" id="usageDarkTitle">DARKENED</h4>
+                                <p class="usage-desc" id="usageDarkDesc">Use for: Dark text on light backgrounds, emphasis, strong contrast</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="components-section">
+                    <h3 class="section-heading">UI Components</h3>
+                    
+                    <div class="component-group">
+                        <h4 class="component-group-title">Buttons</h4>
+                        <div class="buttons-demo">
+                            <button class="demo-btn demo-btn-primary" id="btnPrimary">Primary Button</button>
+                            <button class="demo-btn demo-btn-secondary" id="btnSecondary">Secondary Button</button>
+                            <button class="demo-btn demo-btn-outline" id="btnOutline">Outline Button</button>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Progress Bars</h4>
+                        <div class="progress-demo">
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar" id="progressBar1">
+                                    <div class="progress-fill" id="progressFill1"></div>
+                                </div>
+                                <span class="progress-label">75%</span>
+                            </div>
+                            <div class="progress-bar-wrapper">
+                                <div class="progress-bar" id="progressBar2">
+                                    <div class="progress-fill" id="progressFill2"></div>
+                                </div>
+                                <span class="progress-label">45%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Gradient Bars</h4>
+                        <div class="gradient-bars-demo">
+                            <div class="gradient-bar" id="gradientBar1"></div>
+                            <div class="gradient-bar" id="gradientBar2"></div>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Slider</h4>
+                        <div class="slider-demo">
+                            <input type="range" class="demo-slider" id="demoSlider" min="0" max="100" value="60">
+                            <div class="slider-labels">
+                                <span>0</span>
+                                <span>100</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Cards</h4>
+                        <div class="cards-demo">
+                            <div class="demo-card" id="demoCard1">
+                                <h5 class="card-title" id="cardTitle1">Card Title</h5>
+                                <p class="card-text" id="cardText1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor.</p>
+                            </div>
+                            <div class="demo-card" id="demoCard2">
+                                <h5 class="card-title" id="cardTitle2">Card Title</h5>
+                                <p class="card-text" id="cardText2">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Badges & Tags</h4>
+                        <div class="badges-demo">
+                            <span class="demo-badge" id="badge1">New</span>
+                            <span class="demo-badge" id="badge2">Featured</span>
+                            <span class="demo-badge" id="badge3">Popular</span>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Text Fields</h4>
+                        <div class="textfields-demo">
+                            <div class="textfield-wrapper">
+                                <label class="textfield-label" id="textfieldLabel1">Label</label>
+                                <input type="text" class="demo-textfield" id="textfield1" placeholder="Placeholder text">
+                            </div>
+                            <div class="textfield-wrapper">
+                                <label class="textfield-label" id="textfieldLabel2">Filled</label>
+                                <input type="text" class="demo-textfield demo-textfield-filled" id="textfield2" value="Filled input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Checkboxes & Radio</h4>
+                        <div class="form-controls-demo">
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" class="demo-checkbox" id="checkbox1" checked>
+                                    <span class="checkbox-custom" id="checkboxCustom1"></span>
+                                    <span class="checkbox-text">Option 1</span>
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" class="demo-checkbox" id="checkbox2">
+                                    <span class="checkbox-custom" id="checkboxCustom2"></span>
+                                    <span class="checkbox-text">Option 2</span>
+                                </label>
+                            </div>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="demo-radio" class="demo-radio" id="radio1" checked>
+                                    <span class="radio-custom" id="radioCustom1"></span>
+                                    <span class="radio-text">Choice A</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="demo-radio" class="demo-radio" id="radio2">
+                                    <span class="radio-custom" id="radioCustom2"></span>
+                                    <span class="radio-text">Choice B</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Switches</h4>
+                        <div class="switches-demo">
+                            <label class="switch-label">
+                                <input type="checkbox" class="demo-switch" id="switch1" checked>
+                                <span class="switch-slider" id="switchSlider1"></span>
+                                <span class="switch-text">Enable notifications</span>
+                            </label>
+                            <label class="switch-label">
+                                <input type="checkbox" class="demo-switch" id="switch2">
+                                <span class="switch-slider" id="switchSlider2"></span>
+                                <span class="switch-text">Dark mode</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Chips</h4>
+                        <div class="chips-demo">
+                            <span class="demo-chip" id="chip1">Chip</span>
+                            <span class="demo-chip demo-chip-deletable" id="chip2">
+                                Deletable
+                                <span class="chip-delete">×</span>
+                            </span>
+                            <span class="demo-chip" id="chip3">Outlined</span>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Tabs</h4>
+                        <div class="tabs-demo">
+                            <div class="tabs-header" id="tabsHeader">
+                                <button class="tab-button active" id="tab1">Tab One</button>
+                                <button class="tab-button" id="tab2">Tab Two</button>
+                                <button class="tab-button" id="tab3">Tab Three</button>
+                            </div>
+                            <div class="tabs-indicator" id="tabsIndicator"></div>
+                            <div class="tabs-content">
+                                <p class="tabs-content-text">Content for selected tab appears here.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Lists</h4>
+                        <div class="lists-demo">
+                            <div class="demo-list" id="list1">
+                                <div class="list-item" id="listItem1">
+                                    <div class="list-item-primary">
+                                        <div class="list-item-title" id="listTitle1">List Item 1</div>
+                                        <div class="list-item-subtitle" id="listSubtitle1">Secondary text</div>
+                                    </div>
+                                </div>
+                                <div class="list-item" id="listItem2">
+                                    <div class="list-item-primary">
+                                        <div class="list-item-title" id="listTitle2">List Item 2</div>
+                                        <div class="list-item-subtitle" id="listSubtitle2">Secondary text</div>
+                                    </div>
+                                </div>
+                                <div class="list-item" id="listItem3">
+                                    <div class="list-item-primary">
+                                        <div class="list-item-title" id="listTitle3">List Item 3</div>
+                                        <div class="list-item-subtitle" id="listSubtitle3">Secondary text</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-group">
+                        <h4 class="component-group-title">Icon Buttons</h4>
+                        <div class="icon-buttons-demo">
+                            <button class="demo-icon-btn" id="iconBtn1">★</button>
+                            <button class="demo-icon-btn" id="iconBtn2">♡</button>
+                            <button class="demo-icon-btn" id="iconBtn3">⚙</button>
+                            <button class="demo-icon-btn demo-icon-btn-outlined" id="iconBtn4">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
